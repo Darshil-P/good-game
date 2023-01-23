@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:goodgame/views/home_page.dart';
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    final args = settings.arguments;
+
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => const HomePage());
+      default:
+        return _errorRoute(settings.name);
+    }
+  }
+
+  static Route<dynamic> _errorRoute(route) {
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Error'),
+        ),
+        body: Center(
+          child: Text('Page "$route" Not Found'),
+        ),
+      );
+    });
+  }
+}
