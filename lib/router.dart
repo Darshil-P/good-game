@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/views/home_page.dart';
+import 'package:goodgame/views/test_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -8,6 +9,8 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case '/test':
+        return MaterialPageRoute(builder: (_) => const TestPage());
       default:
         return _errorRoute(settings.name);
     }

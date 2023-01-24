@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme: const ColorScheme.dark(),
       ),
-      initialRoute: "/",
+      initialRoute: "/test",
       onGenerateRoute: RouteGenerator.generateRoute,
       // debugShowCheckedModeBanner: false,
     );
