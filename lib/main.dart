@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/router.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  // This is required to Initialize Firebase Before MyApp()
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // MyApp Should be created after Firebase is Initialized to Check for Signed-In User
   runApp(const MyApp());
 }
 
