@@ -31,8 +31,23 @@ class AppDrawer extends StatelessWidget {
             leading: const DrawerIcon("assets/icons/home.png"),
             title: const Text("Home Page"),
             onTap: () {
-              Navigator.pushReplacementNamed(context, "/home");
+              Navigator.pushReplacementNamed(context, "/");
             },
+          ),
+          const ListTile(
+            leading: DrawerIcon("assets/icons/search.png"),
+            title: Text("Search"),
+          ),
+          ListTile(
+            leading: const DrawerIcon("assets/icons/signin.png"),
+            title: const Text("Sign In"),
+            onTap: () {
+              Navigator.pushNamed(context, "/signIn");
+            },
+          ),
+          const ListTile(
+            leading: DrawerIcon("assets/icons/new_account.png"),
+            title: Text("Create Account"),
           ),
         ],
       ),
