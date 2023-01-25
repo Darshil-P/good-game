@@ -34,10 +34,6 @@ class AppDrawer extends StatelessWidget {
               Navigator.pushReplacementNamed(context, "/");
             },
           ),
-          const ListTile(
-            leading: DrawerIcon("assets/icons/search.png"),
-            title: Text("Search"),
-          ),
           ListTile(
             leading: const DrawerIcon("assets/icons/signin.png"),
             title: const Text("Sign In"),
@@ -45,9 +41,12 @@ class AppDrawer extends StatelessWidget {
               Navigator.pushNamed(context, "/signIn");
             },
           ),
-          const ListTile(
-            leading: DrawerIcon("assets/icons/new_account.png"),
-            title: Text("Create Account"),
+          ListTile(
+            leading: const DrawerIcon("assets/icons/new_account.png"),
+            title: const Text("Create Account"),
+            onTap: () {
+              Navigator.pushNamed(context, "/signUp");
+            },
           ),
         ],
       ),
