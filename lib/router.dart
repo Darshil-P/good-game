@@ -20,7 +20,7 @@ class RouteGenerator {
       case '/signUp':
         return MaterialPageRoute(builder: (_) => const SignUpPage());
       case '/verifyOTP':
-        return MaterialPageRoute(builder: (_) => const VerifyOTPPage());
+        return MaterialPageRoute(builder: (_) => VerifyOTPPage(args as List));
       case '/search':
         return MaterialPageRoute(builder: (_) => const SearchPage());
       default:

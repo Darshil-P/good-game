@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:goodgame/services/auth_service.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +54,11 @@ class SignUpPage extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                    )),
+                  bottom: BorderSide(
+                    width: 3,
+                    color: Colors.white,
+                  ),
+                )),
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 child: const TextField(
                   decoration: InputDecoration(
@@ -62,17 +70,18 @@ class SignUpPage extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                    )),
+                  bottom: BorderSide(
+                    width: 3,
+                    color: Colors.white,
+                  ),
+                )),
                 margin: const EdgeInsets.symmetric(vertical: 20),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
                     hintText: "Phone Number",
                   ),
-                  style: TextStyle(fontSize: 24),
+                  style: const TextStyle(fontSize: 24),
                 ),
               ),
               Container(
@@ -94,11 +103,11 @@ class SignUpPage extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                    )),
+                  bottom: BorderSide(
+                    width: 3,
+                    color: Colors.white,
+                  ),
+                )),
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 child: const TextField(
                   decoration: InputDecoration(
@@ -126,7 +135,9 @@ class SignUpPage extends StatelessWidget {
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.green,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          authenticate(context, _phoneController.text);
+                        },
                         child: const Text("Submit"),
                       ),
                     ),

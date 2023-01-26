@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:goodgame/services/auth_service.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 
-OtpFieldController _otpController = OtpFieldController();
+class VerifyOTPPage extends StatefulWidget {
+  final List args;
 
-class VerifyOTPPage extends StatelessWidget {
-  const VerifyOTPPage({super.key});
+  const VerifyOTPPage(this.args, {super.key});
+
+  @override
+  State<VerifyOTPPage> createState() => _VerifyOTPPageState();
+}
+
+class _VerifyOTPPageState extends State<VerifyOTPPage> {
+  final OtpFieldController _otpController = OtpFieldController();
+  late String _pin;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +59,11 @@ class VerifyOTPPage extends StatelessWidget {
                   ),
                   inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.phone,
+                  onCompleted: (pin) {
+                    setState(() {
+                      _pin = pin;
+                    });
+                  },
                 ),
               ),
               Container(
@@ -71,7 +85,12 @@ class VerifyOTPPage extends StatelessWidget {
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.green,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          var smsCode = _pin;
+                          print(smsCode);
+                          signIn(
+                              context, widget.args[0], smsCode, widget.args[1]);
+                        },
                         child: const Text("Submit"),
                       ),
                     ),

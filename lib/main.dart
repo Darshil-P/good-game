@@ -1,6 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:goodgame/router.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme: const ColorScheme.dark(),
       ),
-      initialRoute: "/test",
+      initialRoute: "/",
       onGenerateRoute: RouteGenerator.generateRoute,
       // debugShowCheckedModeBanner: false,
     );

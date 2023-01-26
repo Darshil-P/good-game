@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
-Future<void> authenticate() async {
+Future<void> authenticate(context, String phone) async {
   await auth.verifyPhoneNumber(
-    phoneNumber: '+91 7900160770',
+    phoneNumber: '+91 $phone',
     verificationCompleted: (PhoneAuthCredential credential) async {
       await auth.signInWithCredential(credential);
     },
@@ -14,7 +15,9 @@ Future<void> authenticate() async {
       }
     },
     codeSent: (String verificationId, int? resendToken) async {
-      signIn(verificationId, resendToken);
+      Navigator.of(context).pushReplacementNamed("/verifyOTP",
+          arguments: [verificationId, resendToken]);
+      // signIn(verificationId, resendToken);
     },
     codeAutoRetrievalTimeout: (String verificationId) {
       // Auto-resolution timed out
@@ -22,8 +25,9 @@ Future<void> authenticate() async {
   );
 }
 
-Future<void> signIn(String verificationId, int? resendToken) async {
-  String smsCode = '111111';
+Future<void> signIn(
+    context, String verificationId, String smsCode, int? resendToken) async {
+  // String smsCode = '111111';
   // Create a PhoneAuthCredential with the code
   PhoneAuthCredential credential = PhoneAuthProvider.credential(
     verificationId: verificationId,
@@ -31,4 +35,5 @@ Future<void> signIn(String verificationId, int? resendToken) async {
   );
 
   await auth.signInWithCredential(credential);
+  Navigator.of(context).pushReplacementNamed("/");
 }
