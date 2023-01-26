@@ -25,13 +25,23 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-            child: Text("GoodGame", style: TextStyle(fontSize: 48),),
+            child: Text(
+              "GoodGame",
+              style: TextStyle(fontSize: 48),
+            ),
           ),
           ListTile(
             leading: const DrawerIcon("assets/icons/home.png"),
             title: const Text("Home Page"),
             onTap: () {
               Navigator.pushReplacementNamed(context, "/");
+            },
+          ),
+          ListTile(
+            leading: const DrawerIcon("assets/icons/search.png"),
+            title: const Text("Search"),
+            onTap: () {
+              Navigator.pushNamed(context, "/search");
             },
           ),
           ListTile(
