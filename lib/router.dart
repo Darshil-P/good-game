@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/views/home_page.dart';
-import 'package:goodgame/views/test_page.dart';
 import 'package:goodgame/views/signin_page.dart';
 import 'package:goodgame/views/signup_page.dart';
+import 'package:goodgame/views/test_page.dart';
+import 'package:goodgame/views/verifyotp_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,6 +18,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SignInPage());
       case '/signUp':
         return MaterialPageRoute(builder: (_) => const SignUpPage());
+      case '/verifyOTP':
+        return MaterialPageRoute(builder: (_) => const VerifyOTPPage());
       default:
         return _errorRoute(settings.name);
     }
