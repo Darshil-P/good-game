@@ -37,3 +37,15 @@ Future<void> signIn(
   await auth.signInWithCredential(credential);
   Navigator.of(context).pushReplacementNamed("/");
 }
+
+bool signedIn() {
+  if (FirebaseAuth.instance.currentUser != null) {
+    return true;
+  }
+  return false;
+}
+
+Future<void> signOut() async {
+  await FirebaseAuth.instance.signOut();
+  print(FirebaseAuth.instance.currentUser);
+}

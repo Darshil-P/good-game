@@ -22,3 +22,29 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+class UserHomePage extends StatelessWidget {
+  const UserHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Page"),
+      ),
+      drawer: const UserAppDrawer(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text("User Logged In"),
+            Text(
+              "Welcome!",
+              style: TextStyle(fontSize: 32),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

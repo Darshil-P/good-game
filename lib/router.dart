@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goodgame/services/auth_service.dart';
 import 'package:goodgame/views/home_page.dart';
 import 'package:goodgame/views/search_page.dart';
 import 'package:goodgame/views/signin_page.dart';
@@ -7,11 +8,14 @@ import 'package:goodgame/views/test_page.dart';
 import 'package:goodgame/views/verifyotp_page.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
     switch (settings.name) {
       case '/':
+        if (signedIn()) {
+          return MaterialPageRoute(builder: (_) => const UserHomePage());
+        }
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/test':
         return MaterialPageRoute(builder: (_) => const TestPage());

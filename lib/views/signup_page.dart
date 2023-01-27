@@ -82,6 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     hintText: "Phone Number",
                   ),
                   style: const TextStyle(fontSize: 24),
+                  keyboardType: TextInputType.phone,
                 ),
               ),
               Container(
