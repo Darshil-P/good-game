@@ -46,3 +46,4 @@ app.*.map.json
 lib/firebase_options.dart
 android/app/google-services.json
 pubspec.lock
+api_credentials.dart
