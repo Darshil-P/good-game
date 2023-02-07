@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../services/search_service.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -8,11 +10,14 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final TextEditingController _searchQuery = TextEditingController();
+
   late Widget _searchBar = const Text(
     "Search",
     style: TextStyle(fontSize: 32),
   );
   late Widget _search;
+  late List<dynamic> results;
 
   @override
   void initState() {
@@ -31,9 +36,10 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: TextField(
-                    style: TextStyle(fontSize: 24),
+                    style: const TextStyle(fontSize: 24),
+                    controller: _searchQuery,
                   ),
                 ),
                 IconButton(
@@ -47,7 +53,9 @@ class _SearchPageState extends State<SearchPage> {
             ),
           );
           _search = IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                results = await search(_searchQuery.text);
+              },
               icon: const Image(image: AssetImage("assets/icons/check.png")));
         });
       },
