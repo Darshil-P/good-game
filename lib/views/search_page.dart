@@ -11,13 +11,12 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchQuery = TextEditingController();
-
   late Widget _searchBar = const Text(
     "Search",
     style: TextStyle(fontSize: 32),
   );
   late Widget _search;
-  late List<dynamic> results;
+  late List<dynamic> results = [];
 
   @override
   void initState() {
@@ -55,6 +54,7 @@ class _SearchPageState extends State<SearchPage> {
           _search = IconButton(
               onPressed: () async {
                 results = await search(_searchQuery.text);
+                setState(() {});
               },
               icon: const Image(image: AssetImage("assets/icons/check.png")));
         });
@@ -86,15 +86,75 @@ class _SearchPageState extends State<SearchPage> {
         ),
         body: TabBarView(
           children: [
-            Column(
-              children: const [],
+            ListView.builder(
+              itemCount: results.length,
+              itemBuilder: (BuildContext context, int i) {
+                return Row(
+                  children: [
+                    Card(
+                      color: Colors.black26,
+                      child: Container(
+                        height: 160,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                "https://images.igdb.com/igdb/image/upload/t_cover_big/${(results[i].cover ?? {
+                                      "image_id": "nocover"
+                                    })["image_id"]}.png"),
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.black26,
+                      child: SizedBox(
+                        height: 160,
+                        width: 246,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 6),
+                                  child: Text(
+                                    results[i].name,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  results[i].summary,
+                                  maxLines: 4,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Color(0xddffffff)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
             Column(
               children: const [],
             ),
             Column(
               children: const [],
-            )
+            ),
           ],
         ),
       ),

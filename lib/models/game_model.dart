@@ -36,7 +36,7 @@ class Game {
       id: map['id'],
       name: map['name'],
       cover: map['cover'],
-      summary: map['summary'] ?? '',
+      summary: map['summary'] ?? 'No Description',
       totalRating: map['total_rating'] ?? 0.0,
       totalRatingCount: map['total_rating_count'] ?? 0,
       releaseDate: map['first_release_date'] ?? -1,
