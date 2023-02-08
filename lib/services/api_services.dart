@@ -25,7 +25,7 @@ Future<Response> fetch(String endpoint, String query) async {
 
 Future<List> search(String query) async {
   Response response = await fetch("games",
-      'fields name, cover, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;');
+      'fields name, cover.image_id, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;');
 
   return gamesList(response);
 }
