@@ -14,7 +14,7 @@ Future<List> search(String query) async {
       'Accept': 'application/json',
     },
     body:
-        'fields name, cover, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;',
+        'fields name, cover.image_id, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;',
   );
 
   late List data;

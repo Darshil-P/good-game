@@ -3,7 +3,7 @@ import 'dart:convert';
 class Game {
   int id;
   String name;
-  int? cover;
+  Map<String, dynamic>? cover;
   String summary;
   double? totalRating;
   int? totalRatingCount;
