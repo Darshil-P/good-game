@@ -2,21 +2,21 @@ import 'dart:convert';
 
 class Game {
   int id;
-  String name;
+  String? name;
   Map<String, dynamic>? cover;
-  String summary;
+  String? summary;
   double? totalRating;
   int? totalRatingCount;
-  int releaseDate;
+  int? releaseDate;
 
   Game({
     required this.id,
-    required this.name,
-    required this.cover,
-    required this.summary,
-    required this.totalRating,
-    required this.totalRatingCount,
-    required this.releaseDate,
+    this.name,
+    this.cover,
+    this.summary,
+    this.totalRating,
+    this.totalRatingCount,
+    this.releaseDate,
   });
 
   Map<String, dynamic> toMap() {

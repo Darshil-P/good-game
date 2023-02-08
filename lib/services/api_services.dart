@@ -30,6 +30,13 @@ Future<List> search(String query) async {
   return gamesList(response);
 }
 
+Future<List> fetchGames() async {
+  Response response = await fetch("games",
+      'fields cover.image_id; sort total_rating desc; where category = 0 & total_rating > 0 & total_rating_count >= 100; limit 24;');
+
+  return gamesList(response);
+}
+
 List gamesList(response) {
   late List data = [];
   if (response.statusCode == 200) {
