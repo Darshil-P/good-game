@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/widgets/drawer_widget.dart';
 
-class HomePage extends StatelessWidget {
+import '../services/api_services.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late List<dynamic> results = [];
+
+  @override
+  initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    results = await fetchGames();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +31,25 @@ class HomePage extends StatelessWidget {
         title: const Text("Home Page"),
       ),
       drawer: const AppDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text("Hello World"),
-          ],
+      body: GridView.builder(
+        itemCount: results.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 0.76,
         ),
+        itemBuilder: (BuildContext context, int i) {
+          return Card(
+            color: Colors.black26,
+            child: SizedBox(
+              height: 160,
+              width: 120,
+              child: Image.network(
+                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${(results[i].cover ?? {
+                        "image_id": "nocover"
+                      })["image_id"]}.png"),
+            ),
+          );
+        },
       ),
     );
   }
