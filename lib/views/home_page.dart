@@ -44,9 +44,7 @@ class _HomePageState extends State<HomePage> {
               height: 160,
               width: 120,
               child: Image.network(
-                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${(results[i].cover ?? {
-                        "image_id": "nocover"
-                      })["image_id"]}.png"),
+                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
             ),
           );
         },

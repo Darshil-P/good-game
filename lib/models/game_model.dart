@@ -3,7 +3,7 @@ import 'dart:convert';
 class Game {
   int id;
   String? name;
-  Map<String, dynamic>? cover;
+  String? cover;
   String? summary;
   double? totalRating;
   int? totalRatingCount;
@@ -35,7 +35,7 @@ class Game {
     return Game(
       id: map['id'],
       name: map['name'],
-      cover: map['cover'],
+      cover: (map['cover'] ?? {'image_id': 'nocover'})["image_id"],
       summary: map['summary'] ?? 'No Description',
       totalRating: map['total_rating'] ?? 0.0,
       totalRatingCount: map['total_rating_count'] ?? 0,

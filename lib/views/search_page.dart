@@ -99,9 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                                "https://images.igdb.com/igdb/image/upload/t_cover_big/${(results[i].cover ?? {
-                                      "image_id": "nocover"
-                                    })["image_id"]}.png"),
+                                "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
                             fit: BoxFit.fitWidth,
                           ),
                         ),
