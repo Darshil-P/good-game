@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart';
 
@@ -37,6 +38,13 @@ Future<List> fetchGames() async {
   return gamesList(response);
 }
 
+Future<List> gameDetails(int id) async {
+  Response response = await fetch("games",
+      'fields artworks.image_id, genres.name, involved_companies.company.name, involved_companies.company.logo.image_id, platforms.name, platforms.platform_logo.image_id, screenshots.image_id, similar_games.cover.image_id, cover.image_id, first_release_date, name, summary, total_rating, total_rating_count, status, storyline, themes.name, url, websites.url, websites.category, game_modes.name, videos.video_id, videos.name; where id = $id;');
+
+  return gamesList(response);
+}
+
 List gamesList(response) {
   late List data = [];
   if (response.statusCode == 200) {
@@ -54,6 +62,5 @@ Future<void> getAccessToken() async {
     Uri.parse(
         'https://id.twitch.tv/oauth2/token?client_id=$IGDB_ClientID&client_secret=$IGDB_ClientSecret&grant_type=client_credentials'),
   );
-  print(
-      "Update your access token in services/api_credentials.dart\nAccess Token: \"${jsonDecode(data.body)["access_token"]}\"");
+  log("Update your access token in services/api_credentials.dart\nAccess Token: \"${jsonDecode(data.body)["access_token"]}\"");
 }
