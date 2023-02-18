@@ -87,9 +87,12 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
                         ),
                         onPressed: () {
                           var smsCode = _pin;
-                          print(smsCode);
                           signIn(
-                              context, widget.args[0], smsCode, widget.args[1]);
+                            context,
+                            widget.args[0],
+                            smsCode,
+                            widget.args[1],
+                          );
                         },
                         child: const Text("Submit"),
                       ),
