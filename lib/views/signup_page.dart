@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 Visibility(
-                  visible: (_invalidEmail || _invalidUsername),
+                  visible: (_invalidUsername || _invalidPassword),
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
