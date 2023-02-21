@@ -21,6 +21,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    FocusNode searchFocusNode = FocusNode();
     _search = IconButton(
       onPressed: () {
         setState(() {
@@ -37,12 +38,21 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Expanded(
                   child: TextField(
+                    autofocus: true,
+                    focusNode: searchFocusNode,
+                    textInputAction: TextInputAction.search,
                     style: const TextStyle(fontSize: 24),
                     controller: _searchQuery,
+                    onSubmitted: (_) async {
+                      results = await search(_searchQuery.text);
+                      setState(() {});
+                    },
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _searchQuery.clear();
+                  },
                   icon: const Image(
                     image: AssetImage("assets/icons/cross.png"),
                     width: 24,
@@ -53,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
           );
           _search = IconButton(
               onPressed: () async {
+                searchFocusNode.unfocus();
                 results = await search(_searchQuery.text);
                 setState(() {});
               },
