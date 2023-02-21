@@ -205,10 +205,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: _phoneController,
                     decoration: const InputDecoration(
                       hintText: "Phone Number",
-                      prefixText: "+91 ",
-                      prefixStyle: TextStyle(
-                        fontSize: 24,
-                        color: Color(0xffcccccc),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Text(
+                          "+91 ",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Color(0xffcccccc),
+                          ),
+                        ),
                       ),
                     ),
                     style: const TextStyle(fontSize: 24),
