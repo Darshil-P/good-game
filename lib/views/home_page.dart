@@ -38,13 +38,19 @@ class _HomePageState extends State<HomePage> {
           childAspectRatio: 0.76,
         ),
         itemBuilder: (BuildContext context, int i) {
-          return Card(
-            color: Colors.black26,
-            child: SizedBox(
-              height: 160,
-              width: 120,
-              child: Image.network(
-                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed("/game", arguments: [results[i].id]);
+            },
+            child: Card(
+              color: Colors.black26,
+              child: SizedBox(
+                height: 160,
+                width: 120,
+                child: Image.network(
+                    "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
+              ),
             ),
           );
         },
