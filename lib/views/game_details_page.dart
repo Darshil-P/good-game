@@ -397,15 +397,21 @@ ListView createGameDetails(Game game) {
                     itemBuilder: (BuildContext context, int i) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 4.0),
-                        child: Card(
-                          color: Colors.black26,
-                          child: Container(
-                            width: 112,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://images.igdb.com/igdb/image/upload/t_cover_big/${game.similarGames![i].cover}.png"),
-                                fit: BoxFit.fitWidth,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed("/game",
+                                arguments: [game.similarGames![i].id]);
+                          },
+                          child: Card(
+                            color: Colors.black26,
+                            child: Container(
+                              width: 112,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      "https://images.igdb.com/igdb/image/upload/t_cover_big/${game.similarGames![i].cover}.png"),
+                                  fit: BoxFit.fitWidth,
+                                ),
                               ),
                             ),
                           ),

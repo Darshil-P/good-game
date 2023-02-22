@@ -100,61 +100,68 @@ class _SearchPageState extends State<SearchPage> {
             ListView.builder(
               itemCount: results.length,
               itemBuilder: (BuildContext context, int i) {
-                return Row(
-                  children: [
-                    Card(
-                      color: Colors.black26,
-                      child: Container(
-                        height: 160,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
-                            fit: BoxFit.fitWidth,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed("/game", arguments: [results[i].id]);
+                  },
+                  child: Row(
+                    children: [
+                      Card(
+                        color: Colors.black26,
+                        child: Container(
+                          height: 160,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Card(
-                      color: Colors.black26,
-                      child: SizedBox(
-                        height: 160,
-                        width: 246,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 6),
-                                  child: Text(
-                                    results[i].name,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                      Card(
+                        color: Colors.black26,
+                        child: SizedBox(
+                          height: 160,
+                          width: 246,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 6),
+                                    child: Text(
+                                      results[i].name,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  results[i].summary,
-                                  maxLines: 4,
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      overflow: TextOverflow.ellipsis,
-                                      color: Color(0xddffffff)),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    results[i].summary,
+                                    maxLines: 4,
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Color(0xddffffff)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),
