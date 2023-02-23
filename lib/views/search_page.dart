@@ -115,8 +115,7 @@ class _SearchPageState extends State<SearchPage> {
                           width: 120,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${games[i].cover}.png"),
+                              image: NetworkImage(games[i].cover),
                               fit: BoxFit.fitWidth,
                             ),
                           ),

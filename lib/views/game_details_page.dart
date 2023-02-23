@@ -6,8 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/game_model.dart';
 
 class GameDetailsPage extends StatefulWidget {
-  final int game;
-  const GameDetailsPage(this.game, {Key? key}) : super(key: key);
+  final int gameId;
+  const GameDetailsPage(this.gameId, {Key? key}) : super(key: key);
 
   @override
   State<GameDetailsPage> createState() => _GameDetailsPageState();
@@ -30,16 +30,15 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
       ],
     )
   ]);
-  late Game game = Game(id: widget.game);
 
   @override
   initState() {
     super.initState();
-    getData(game.id);
+    getData(widget.gameId);
   }
 
   getData(gameId) async {
-    game = (await gameDetails(gameId))[0];
+    Game game = (await gameDetails(gameId))[0];
     gameDetailsPage = createGameDetails(game);
     setState(() {});
   }
@@ -166,8 +165,7 @@ ListView createGameDetails(Game game) {
                       child: SizedBox(
                         height: 200,
                         width: 150,
-                        child: Image.network(
-                            "https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover!}.png"),
+                        child: Image.network(game.cover),
                       ),
                     ),
                   ],
@@ -408,8 +406,8 @@ ListView createGameDetails(Game game) {
                               width: 112,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                      "https://images.igdb.com/igdb/image/upload/t_cover_big/${game.similarGames![i].cover}.png"),
+                                  image:
+                                      NetworkImage(game.similarGames![i].cover),
                                   fit: BoxFit.fitWidth,
                                 ),
                               ),

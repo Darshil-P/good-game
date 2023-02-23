@@ -49,8 +49,7 @@ class _HomePageState extends State<HomePage> {
               child: SizedBox(
                 height: 160,
                 width: 120,
-                child: Image.network(
-                    "https://images.igdb.com/igdb/image/upload/t_cover_big/${games[i].cover}.png"),
+                child: Image.network(games[i].cover),
               ),
             ),
           );

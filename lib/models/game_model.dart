@@ -74,7 +74,8 @@ class Game {
     return Game(
       id: map['id'],
       name: map['name'],
-      cover: (map['cover'] ?? {'image_id': 'nocover'})["image_id"],
+      cover:
+          "https://images.igdb.com/igdb/image/upload/t_cover_big/${map['cover']?['image_id'] ?? 'nocover'}.png",
       summary: map['summary'] ?? 'No Description',
       totalRating: map['total_rating'] ?? 0.0,
       totalRatingCount: map['total_rating_count'] ?? 0,
