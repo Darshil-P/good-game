@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 import '../models/game_model.dart';
+import '../models/games_model.dart';
 import 'api_credentials.dart';
 
 Future<Response> fetch(String endpoint, String query) async {
@@ -24,18 +25,18 @@ Future<Response> fetch(String endpoint, String query) async {
   return response;
 }
 
-Future<List> search(String query) async {
+Future<Games> search(String query) async {
   Response response = await fetch("games",
       'fields name, cover.image_id, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;');
 
-  return gamesList(response);
+  return Games.fromMap({"games": jsonDecode(response.body)});
 }
 
-Future<List> fetchGames() async {
+Future<Games> fetchGames() async {
   Response response = await fetch("games",
       'fields cover.image_id; sort total_rating desc; where category = 0 & total_rating > 0 & total_rating_count >= 100; limit 24;');
 
-  return gamesList(response);
+  return Games.fromMap({"games": jsonDecode(response.body)});
 }
 
 Future<List> gameDetails(int id) async {
@@ -62,5 +63,6 @@ Future<void> getAccessToken() async {
     Uri.parse(
         'https://id.twitch.tv/oauth2/token?client_id=$IGDB_ClientID&client_secret=$IGDB_ClientSecret&grant_type=client_credentials'),
   );
-  log("Update your access token in services/api_credentials.dart\nAccess Token: \"${jsonDecode(data.body)["access_token"]}\"");
+  debugPrint(
+      "Update your access token in services/api_credentials.dart\nAccess Token: \"${jsonDecode(data.body)["access_token"]}\"");
 }

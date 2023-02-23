@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/game_model.dart';
 import '../services/api_services.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SearchPageState extends State<SearchPage> {
     style: TextStyle(fontSize: 32),
   );
   late Widget _search;
-  late List<dynamic> results = [];
+  late List<Game> games = [];
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
                     style: const TextStyle(fontSize: 24),
                     controller: _searchQuery,
                     onSubmitted: (_) async {
-                      results = await search(_searchQuery.text);
+                      games = (await search(_searchQuery.text)).games;
                       setState(() {});
                     },
                   ),
@@ -64,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
           _search = IconButton(
               onPressed: () async {
                 searchFocusNode.unfocus();
-                results = await search(_searchQuery.text);
+                games = (await search(_searchQuery.text)).games;
                 setState(() {});
               },
               icon: const Image(image: AssetImage("assets/icons/check.png")));
@@ -98,12 +99,12 @@ class _SearchPageState extends State<SearchPage> {
         body: TabBarView(
           children: [
             ListView.builder(
-              itemCount: results.length,
+              itemCount: games.length,
               itemBuilder: (BuildContext context, int i) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed("/game", arguments: [results[i].id]);
+                        .pushNamed("/game", arguments: [games[i].id]);
                   },
                   child: Row(
                     children: [
@@ -115,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
+                                  "https://images.igdb.com/igdb/image/upload/t_cover_big/${games[i].cover}.png"),
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -135,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 6),
                                     child: Text(
-                                      results[i].name,
+                                      games[i].name!,
                                       maxLines: 2,
                                       style: const TextStyle(
                                           fontSize: 20,
@@ -147,7 +148,7 @@ class _SearchPageState extends State<SearchPage> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    results[i].summary,
+                                    games[i].summary!,
                                     maxLines: 4,
                                     style: const TextStyle(
                                         fontSize: 15,
@@ -165,11 +166,11 @@ class _SearchPageState extends State<SearchPage> {
                 );
               },
             ),
-            Column(
-              children: const [],
+            const Column(
+              children: [],
             ),
-            Column(
-              children: const [],
+            const Column(
+              children: [],
             ),
           ],
         ),

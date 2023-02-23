@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/widgets/drawer_widget.dart';
 
+import '../models/game_model.dart';
 import '../services/api_services.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<dynamic> results = [];
+  List<Game> games = [];
 
   @override
   initState() {
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getData() async {
-    results = await fetchGames();
+    games = (await fetchGames()).games;
     setState(() {});
   }
 
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: const AppDrawer(),
       body: GridView.builder(
-        itemCount: results.length,
+        itemCount: games.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 0.76,
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           return GestureDetector(
             onTap: () {
               Navigator.of(context)
-                  .pushNamed("/game", arguments: [results[i].id]);
+                  .pushNamed("/game", arguments: [games[i].id]);
             },
             child: Card(
               color: Colors.black26,
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 height: 160,
                 width: 120,
                 child: Image.network(
-                    "https://images.igdb.com/igdb/image/upload/t_cover_big/${results[i].cover}.png"),
+                    "https://images.igdb.com/igdb/image/upload/t_cover_big/${games[i].cover}.png"),
               ),
             ),
           );
