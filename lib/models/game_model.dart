@@ -3,7 +3,7 @@ import 'dart:convert';
 class Game {
   int id;
   String? name;
-  String? cover;
+  String cover;
   String? summary;
   double? totalRating;
   int? totalRatingCount;
@@ -25,7 +25,7 @@ class Game {
   Game({
     required this.id,
     this.name,
-    this.cover,
+    required this.cover,
     this.summary,
     this.totalRating,
     this.totalRatingCount,
@@ -81,7 +81,7 @@ class Game {
       releaseDate: map['first_release_date'] ?? -1,
       status: map['status'] ?? -1,
       url: map['url'],
-      storyline: map['storyline'],
+      storyline: map['storyline'] ?? 'No Storyline',
       gameModes: map['game_modes']?.map((mode) => mode['name']).toList() ?? [],
       genres: map['genres']?.map((genre) => genre['name']).toList() ?? [],
       themes: map['themes']?.map((theme) => theme['name']).toList() ?? [],
@@ -89,23 +89,30 @@ class Game {
               ?.map((screenshot) => screenshot['image_id'])
               .toList() ??
           [],
-      artworks: map['artworks']?.map((artwork) => artwork['image_id']).toList(),
+      artworks:
+          map['artworks']?.map((artwork) => artwork['image_id']).toList() ?? [],
       videos: map['videos']
-          ?.map((video) => Video(video['name'], video['video_id']))
-          .toList(),
+              ?.map((video) => Video(video['name'], video['video_id']))
+              .toList() ??
+          [],
       websites: map['websites']
-          ?.map((website) => Website(website['url'], website['category']))
-          .toList(),
+              ?.map((website) => Website(website['url'], website['category']))
+              .toList() ??
+          [],
       similarGames:
-          map['similar_games']?.map((game) => Game.fromMap(game)).toList(),
+          map['similar_games']?.map((game) => Game.fromMap(game)).toList() ??
+              [],
       platforms: map['platforms']
-          ?.map((platform) => Platform(
-              platform['name'], platform['platform_logo']?['image_id']))
-          .toList(),
+              ?.map((platform) => Platform(
+                  platform['name'], platform['platform_logo']?['image_id']))
+              .toList() ??
+          [],
       companies: map['involved_companies']
-          ?.map((involvedCompany) => Company(involvedCompany['company']['name'],
-              involvedCompany['company']['logo']?['image_id']))
-          .toList(),
+              ?.map((involvedCompany) => Company(
+                  involvedCompany['company']['name'],
+                  involvedCompany['company']['logo']?['image_id']))
+              .toList() ??
+          [],
     );
   }
 
