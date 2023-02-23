@@ -95,6 +95,21 @@ Future<void> signUp(BuildContext context, String username, String email,
 
     Map<String, dynamic> user = {
       "username": username,
+      'followings':
+          FirebaseFirestore.instance.collection("followings").doc(uid),
+      'followers': FirebaseFirestore.instance.collection("followers").doc(uid),
+      'wishlist': FirebaseFirestore.instance.collection("wishlist").doc(uid),
+      'games_played':
+          FirebaseFirestore.instance.collection("games_played").doc(uid),
+      'games_liked':
+          FirebaseFirestore.instance.collection("games_liked").doc(uid),
+      'lists': FirebaseFirestore.instance.collection("lists").doc(uid),
+      'followings_count': 0,
+      'followers_count': 0,
+      'wishlist_count': 0,
+      'games_played_count': 0,
+      'games_liked_count': 0,
+      'lists_count': 0,
     };
     await FirebaseFirestore.instance.collection("users").doc(uid).set(user);
 
