@@ -33,8 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _usernameError = "Invalid Username";
     }
     _invalidEmail = false;
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-        .hasMatch(_emailController.text)) {
+    if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_emailController.text)) {
       _invalidEmail = true;
       _emailError = "Invalid Email";
     }
@@ -44,8 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _phoneError = "Invalid Phone";
     }
     _invalidPassword = false;
-    if (!RegExp(
-            r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
+    if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
         .hasMatch(_passwordController.text)) {
       _invalidPassword = true;
     }
@@ -59,18 +57,13 @@ class _SignUpPageState extends State<SignUpPage> {
         _invalidPhone ||
         _invalidPassword ||
         _passwordMismatch)) {
-      _invalidUsername =
-          await usernameAvailable(_usernameController.text) ? false : true;
+      _invalidUsername = await usernameAvailable(_usernameController.text) ? false : true;
       _usernameError = "Username Already Taken";
 
-      _invalidEmail =
-          await emailAlreadyRegistered(_emailController.text) ? true : false;
+      _invalidEmail = await emailAlreadyRegistered(_emailController.text) ? true : false;
       _emailError = "Email Already Registered";
 
-      _invalidPhone =
-          await phoneAlreadyRegistered("+91${_phoneController.text}")
-              ? true
-              : false;
+      _invalidPhone = await phoneAlreadyRegistered("+91${_phoneController.text}") ? true : false;
       _phoneError = "Phone Already Registered";
     }
 
@@ -123,9 +116,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         Radius.circular(16),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           "Password Must Have:\n\n- Atleast 8 Characters\n- Atleast 1:\n    - Uppercase Letter\n    - Lowercase Letter\n    - Special Character\n    - Number",
                         ),
