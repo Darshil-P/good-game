@@ -5,6 +5,7 @@ import 'package:goodgame/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/game_model.dart';
+import '../widgets/videoplayer_widget.dart';
 
 class GameDetailsPage extends StatefulWidget {
   final int gameId;
@@ -194,6 +195,32 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     Text(
                       game.summary!,
                       style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "Videos: ",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 135,
+                      child: ListView.builder(
+                        itemCount: game.videos!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int i) {
+                          return Container(
+                            width: 240,
+                            margin: const EdgeInsets.only(right: 8),
+                            child: VideoPlayer(game.videos?[i].videoId),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
