@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goodgame/services/auth_service.dart';
 import 'package:goodgame/widgets/drawer_widget.dart';
 
 import '../models/game_model.dart';
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Home Page"),
       ),
-      drawer: const AppDrawer(),
+      drawer: signedIn() ? const UserAppDrawer() : const AppDrawer(),
       body: GridView.builder(
         itemCount: games.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -41,8 +42,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int i) {
           return GestureDetector(
             onTap: () {
-              Navigator.of(context)
-                  .pushNamed("/game", arguments: [games[i].id]);
+              Navigator.of(context).pushNamed("/game", arguments: [games[i].id]);
             },
             child: Card(
               color: Colors.black26,
@@ -69,10 +69,10 @@ class UserHomePage extends StatelessWidget {
         title: const Text("Home Page"),
       ),
       drawer: const UserAppDrawer(),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text("User Logged In"),
             Text(
               "Welcome!",

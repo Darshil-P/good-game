@@ -15,7 +15,7 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         if (signedIn()) {
-          return MaterialPageRoute(builder: (_) => const UserHomePage());
+          return MaterialPageRoute(builder: (_) => const HomePage());
         }
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/test':
@@ -29,8 +29,7 @@ class RouteGenerator {
       case '/search':
         return MaterialPageRoute(builder: (_) => const SearchPage());
       case '/game':
-        return MaterialPageRoute(
-            builder: (_) => GameDetailsPage((args as List)[0]));
+        return MaterialPageRoute(builder: (_) => GameDetailsPage((args as List)[0]));
       default:
         return _errorRoute(settings.name);
     }
