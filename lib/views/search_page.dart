@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goodgame/widgets/loading_widget.dart';
 
 import '../models/game_model.dart';
 import '../services/api_services.dart';
@@ -16,6 +17,7 @@ class _SearchPageState extends State<SearchPage> {
     "Search",
     style: TextStyle(fontSize: 32),
   );
+  late bool _isLoaded = true;
   late Widget _search;
   late List<Game> games = [];
 
@@ -45,8 +47,13 @@ class _SearchPageState extends State<SearchPage> {
                     style: const TextStyle(fontSize: 24),
                     controller: _searchQuery,
                     onSubmitted: (_) async {
+                      setState(() {
+                        _isLoaded = false;
+                      });
                       games = (await search(_searchQuery.text)).games;
-                      setState(() {});
+                      setState(() {
+                        _isLoaded = true;
+                      });
                     },
                   ),
                 ),
@@ -65,8 +72,13 @@ class _SearchPageState extends State<SearchPage> {
           _search = IconButton(
               onPressed: () async {
                 searchFocusNode.unfocus();
+                setState(() {
+                  _isLoaded = false;
+                });
                 games = (await search(_searchQuery.text)).games;
-                setState(() {});
+                setState(() {
+                  _isLoaded = true;
+                });
               },
               icon: const Image(image: AssetImage("assets/icons/check.png")));
         });
@@ -98,77 +110,87 @@ class _SearchPageState extends State<SearchPage> {
         ),
         body: TabBarView(
           children: [
-            ListView.builder(
-              itemCount: games.length,
-              itemBuilder: (BuildContext context, int i) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/game", arguments: [games[i].id]);
-                  },
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 30,
-                        child: Card(
-                          color: Colors.black26,
-                          child: Container(
-                            height: 152,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(games[i].cover),
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
+            _isLoaded
+                ? games.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No Results Found",
+                          style: TextStyle(fontSize: 24),
                         ),
-                      ),
-                      Expanded(
-                        flex: 70,
-                        child: Card(
-                          color: Colors.black26,
-                          child: SizedBox(
-                            height: 152,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Text(
-                                        games[i].name!,
-                                        maxLines: 2,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                      )
+                    : ListView.builder(
+                        itemCount: games.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/game", arguments: [games[i].id]);
+                            },
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 30,
+                                  child: Card(
+                                    color: Colors.black26,
+                                    child: Container(
+                                      height: 152,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(games[i].cover),
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      games[i].summary!,
-                                      maxLines: 4,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Color(0xddffffff)),
+                                ),
+                                Expanded(
+                                  flex: 70,
+                                  child: Card(
+                                    color: Colors.black26,
+                                    child: SizedBox(
+                                      height: 152,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 6),
+                                                child: Text(
+                                                  games[i].name!,
+                                                  maxLines: 2,
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                games[i].summary!,
+                                                maxLines: 4,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  color: Color(0xddffffff),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                          );
+                        },
+                      )
+                : const Loading(),
             const Column(
               children: [],
             ),
