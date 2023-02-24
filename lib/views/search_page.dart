@@ -103,59 +103,63 @@ class _SearchPageState extends State<SearchPage> {
               itemBuilder: (BuildContext context, int i) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context)
-                        .pushNamed("/game", arguments: [games[i].id]);
+                    Navigator.of(context).pushNamed("/game", arguments: [games[i].id]);
                   },
                   child: Row(
                     children: [
-                      Card(
-                        color: Colors.black26,
-                        child: Container(
-                          height: 160,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(games[i].cover),
-                              fit: BoxFit.fitWidth,
+                      Expanded(
+                        flex: 30,
+                        child: Card(
+                          color: Colors.black26,
+                          child: Container(
+                            height: 152,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(games[i].cover),
+                                fit: BoxFit.fitWidth,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Card(
-                        color: Colors.black26,
-                        child: SizedBox(
-                          height: 160,
-                          width: 246,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 6),
-                                    child: Text(
-                                      games[i].name!,
-                                      maxLines: 2,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                      Expanded(
+                        flex: 70,
+                        child: Card(
+                          color: Colors.black26,
+                          child: SizedBox(
+                            height: 152,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 6),
+                                      child: Text(
+                                        games[i].name!,
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    games[i].summary!,
-                                    maxLines: 4,
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        overflow: TextOverflow.ellipsis,
-                                        color: Color(0xddffffff)),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      games[i].summary!,
+                                      maxLines: 4,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Color(0xddffffff)),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
