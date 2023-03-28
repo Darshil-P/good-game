@@ -27,28 +27,38 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _passwordMismatch = false;
 
   Future<bool> validateCredentials() async {
+    String username = _usernameController.text.trim();
+    String email = _emailController.text.trim();
+    String phone = _phoneController.text.trim();
+    String password = _passwordController.text;
+    String rePassword = _rePasswordController.text;
+
     _invalidUsername = false;
-    if (!RegExp(r'^[a-zA-Z\d_-]{3,32}$').hasMatch(_usernameController.text)) {
+    if (!RegExp(r'^[a-zA-Z\d_-]{3,32}$').hasMatch(username)) {
       _invalidUsername = true;
       _usernameError = "Invalid Username";
     }
+
     _invalidEmail = false;
-    if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_emailController.text)) {
+    if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
       _invalidEmail = true;
       _emailError = "Invalid Email";
     }
+
     _invalidPhone = false;
-    if (!RegExp(r'^\d{10}$').hasMatch(_phoneController.text)) {
+    if (!RegExp(r'^\d{10}$').hasMatch(phone)) {
       _invalidPhone = true;
       _phoneError = "Invalid Phone";
     }
+
     _invalidPassword = false;
     if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
-        .hasMatch(_passwordController.text)) {
+        .hasMatch(password)) {
       _invalidPassword = true;
     }
+
     _passwordMismatch = false;
-    if (_passwordController.text != _rePasswordController.text) {
+    if (password != rePassword) {
       _passwordMismatch = true;
     }
 
@@ -57,32 +67,23 @@ class _SignUpPageState extends State<SignUpPage> {
         _invalidPhone ||
         _invalidPassword ||
         _passwordMismatch)) {
-      _invalidUsername =
-          await isRegistered(credentialType: "username", value: _usernameController.text)
-              ? true
-              : false;
+      _invalidUsername = await isRegistered(credentialType: "username", value: username);
       _usernameError = "Username Already Taken";
 
-      _invalidEmail =
-          await isRegistered(credentialType: "email", value: _emailController.text) ? true : false;
+      _invalidEmail = await isRegistered(credentialType: "email", value: email);
       _emailError = "Email Already Registered";
 
-      _invalidPhone =
-          await isRegistered(credentialType: "phone", value: "+91${_phoneController.text}")
-              ? true
-              : false;
+      _invalidPhone = await isRegistered(credentialType: "phone", value: "+91$phone");
       _phoneError = "Phone Already Registered";
     }
 
     setState(() {});
 
-    return _invalidUsername ||
-            _invalidEmail ||
-            _invalidPhone ||
-            _invalidPassword ||
-            _passwordMismatch
-        ? false
-        : true;
+    return !(_invalidUsername ||
+        _invalidEmail ||
+        _invalidPhone ||
+        _invalidPassword ||
+        _passwordMismatch);
   }
 
   @override
@@ -317,9 +318,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
                               await signUp(
                                 context,
-                                _usernameController.text,
-                                _emailController.text,
-                                "+91${_phoneController.text}",
+                                _usernameController.text.trim(),
+                                _emailController.text.trim(),
+                                "+91${_phoneController.text.trim()}",
                                 _passwordController.text,
                               );
                             } else {

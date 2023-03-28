@@ -15,18 +15,46 @@ class _SignInPageState extends State<SignInPage> {
   bool _formEnabled = true;
   bool _invalid = false;
 
+  void validateAndAuthenticate() async {
+    setState(() {
+      _invalid = false;
+      _formEnabled = false;
+    });
+    var type = validateCredentials();
+    if (type != "invalid") {
+      setState(() {
+        _invalid = false;
+        _formEnabled = false;
+      });
+      if (!await authenticate(context, type, _credential.text.trim(), _password.text)) {
+        setState(() {
+          _invalid = true;
+          _formEnabled = true;
+        });
+      } else {
+        Navigator.of(context).pushReplacementNamed("/");
+      }
+    } else {
+      setState(() {
+        _invalid = true;
+        _formEnabled = true;
+      });
+    }
+  }
+
   String validateCredentials() {
+    String credential = _credential.text.trim();
+    String password = _password.text;
+
     String valid = "invalid";
-    if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-        .hasMatch(_credential.text)) {
+    if (RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(credential)) {
       valid = "email";
-    } else if (RegExp(r'^[a-zA-Z\d_-]{3,32}$').hasMatch(_credential.text)) {
+    } else if (RegExp(r'^[a-zA-Z\d_-]{3,32}$').hasMatch(credential)) {
       valid = "username";
     }
 
-    if (RegExp(
-            r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
-        .hasMatch(_password.text)) {
+    if (RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
+        .hasMatch(password)) {
     } else {
       valid = "invalid";
     }
@@ -107,7 +135,7 @@ class _SignInPageState extends State<SignInPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        Text("Invalid Username, Email or Password!")
+                        Text("Invalid Username, Email or Password!"),
                       ],
                     ),
                   ),
@@ -127,39 +155,12 @@ class _SignInPageState extends State<SignInPage> {
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 40),
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text("Submit"),
-                          onPressed: () async {
-                            setState(() {
-                              _invalid = false;
-                              _formEnabled = false;
-                            });
-                            var type = validateCredentials();
-                            if (type != "invalid") {
-                              setState(() {
-                                _invalid = false;
-                                _formEnabled = false;
-                              });
-                              if (!await authenticate(context, type,
-                                  _credential.text, _password.text)) {
-                                setState(() {
-                                  _invalid = true;
-                                  _formEnabled = true;
-                                });
-                              } else {
-                                Navigator.of(context).pushReplacementNamed("/");
-                              }
-                            } else {
-                              setState(() {
-                                _invalid = true;
-                                _formEnabled = true;
-                              });
-                            }
-                          },
-                        ),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.green,
+                            ),
+                            onPressed: validateAndAuthenticate,
+                            child: const Text("Submit")),
                       ),
                     ],
                   ),
