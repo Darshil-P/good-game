@@ -57,13 +57,20 @@ class _SignUpPageState extends State<SignUpPage> {
         _invalidPhone ||
         _invalidPassword ||
         _passwordMismatch)) {
-      _invalidUsername = await usernameAvailable(_usernameController.text) ? false : true;
+      _invalidUsername =
+          await isRegistered(credentialType: "username", value: _usernameController.text)
+              ? true
+              : false;
       _usernameError = "Username Already Taken";
 
-      _invalidEmail = await emailAlreadyRegistered(_emailController.text) ? true : false;
+      _invalidEmail =
+          await isRegistered(credentialType: "email", value: _emailController.text) ? true : false;
       _emailError = "Email Already Registered";
 
-      _invalidPhone = await phoneAlreadyRegistered("+91${_phoneController.text}") ? true : false;
+      _invalidPhone =
+          await isRegistered(credentialType: "phone", value: "+91${_phoneController.text}")
+              ? true
+              : false;
       _phoneError = "Phone Already Registered";
     }
 

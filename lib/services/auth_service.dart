@@ -19,8 +19,7 @@ void authenticatePhone(context, String phone, Completer completer) {
       }
     },
     codeSent: (String verificationId, int? resendToken) async {
-      await Navigator.of(context)
-          .pushNamed("/verifyOTP", arguments: [verificationId, resendToken]);
+      await Navigator.of(context).pushNamed("/verifyOTP", arguments: [verificationId, resendToken]);
       completer.complete();
     },
     codeAutoRetrievalTimeout: (String verificationId) {
@@ -29,8 +28,7 @@ void authenticatePhone(context, String phone, Completer completer) {
   );
 }
 
-Future<bool> authenticate(
-    context, String type, String credential, String password) async {
+Future<bool> authenticate(context, String type, String credential, String password) async {
   final cred = await FirebaseFirestore.instance
       .collection("credentials")
       .where(type, isEqualTo: credential.toLowerCase())
@@ -48,8 +46,7 @@ Future<bool> authenticate(
   return false;
 }
 
-Future<void> signIn(
-    context, String verificationId, String smsCode, int? resendToken) async {
+Future<void> signIn(context, String verificationId, String smsCode, int? resendToken) async {
   // Create a PhoneAuthCredential with the code
   PhoneAuthCredential credential = PhoneAuthProvider.credential(
     verificationId: verificationId,
@@ -64,8 +61,8 @@ bool signedIn() {
   return (FirebaseAuth.instance.currentUser != null) ? true : false;
 }
 
-Future<void> signUp(BuildContext context, String username, String email,
-    String phone, String password) async {
+Future<void> signUp(
+    BuildContext context, String username, String email, String phone, String password) async {
   Completer phoneAuthComplete = Completer();
 
   authenticatePhone(context, phone, phoneAuthComplete);
@@ -88,21 +85,15 @@ Future<void> signUp(BuildContext context, String username, String email,
       "password": pwHash,
       "account_creation_date": DateTime.now().millisecondsSinceEpoch,
     };
-    await FirebaseFirestore.instance
-        .collection("credentials")
-        .doc(uid)
-        .set(credentials);
+    await FirebaseFirestore.instance.collection("credentials").doc(uid).set(credentials);
 
     Map<String, dynamic> user = {
       "username": username,
-      'followings':
-          FirebaseFirestore.instance.collection("followings").doc(uid),
+      'followings': FirebaseFirestore.instance.collection("followings").doc(uid),
       'followers': FirebaseFirestore.instance.collection("followers").doc(uid),
       'wishlist': FirebaseFirestore.instance.collection("wishlist").doc(uid),
-      'games_played':
-          FirebaseFirestore.instance.collection("games_played").doc(uid),
-      'games_liked':
-          FirebaseFirestore.instance.collection("games_liked").doc(uid),
+      'games_played': FirebaseFirestore.instance.collection("games_played").doc(uid),
+      'games_liked': FirebaseFirestore.instance.collection("games_liked").doc(uid),
       'lists': FirebaseFirestore.instance.collection("lists").doc(uid),
       'followings_count': 0,
       'followers_count': 0,
@@ -120,28 +111,10 @@ Future<void> signUp(BuildContext context, String username, String email,
   }
 }
 
-Future<bool> usernameAvailable(String username) async {
+Future<bool> isRegistered({required String credentialType, required String value}) async {
   final cred = await FirebaseFirestore.instance
       .collection("credentials")
-      .where("username", isEqualTo: username.toLowerCase())
-      .get();
-
-  return cred.docs.isEmpty ? true : false;
-}
-
-Future<bool> emailAlreadyRegistered(String email) async {
-  final cred = await FirebaseFirestore.instance
-      .collection("credentials")
-      .where("email", isEqualTo: email.toLowerCase())
-      .get();
-
-  return cred.docs.isNotEmpty ? true : false;
-}
-
-Future<bool> phoneAlreadyRegistered(String phone) async {
-  final cred = await FirebaseFirestore.instance
-      .collection("credentials")
-      .where("phone", isEqualTo: phone)
+      .where(credentialType, isEqualTo: value.toLowerCase())
       .get();
 
   return cred.docs.isNotEmpty ? true : false;
