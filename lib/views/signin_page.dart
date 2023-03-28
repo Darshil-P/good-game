@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
       valid = "username";
     }
 
-    if (RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
+    if (RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.* )[\w\W]{8,32}$')
         .hasMatch(password)) {
     } else {
       valid = "invalid";

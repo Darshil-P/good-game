@@ -52,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     _invalidPassword = false;
-    if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,32}$')
+    if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.* )[\w\W]{8,32}$')
         .hasMatch(password)) {
       _invalidPassword = true;
     }
