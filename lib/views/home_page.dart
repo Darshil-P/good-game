@@ -23,7 +23,9 @@ class _HomePageState extends State<HomePage> {
 
   getData() async {
     games = (await fetchGames()).games;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
