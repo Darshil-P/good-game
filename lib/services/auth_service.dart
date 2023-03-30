@@ -4,6 +4,7 @@ import 'package:bcrypt/bcrypt.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:goodgame/models/user_model.dart' as model;
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -87,22 +88,22 @@ Future<void> signUp(
     };
     await FirebaseFirestore.instance.collection("credentials").doc(uid).set(credentials);
 
-    Map<String, dynamic> user = {
-      "username": username,
-      'followings': FirebaseFirestore.instance.collection("followings").doc(uid),
-      'followers': FirebaseFirestore.instance.collection("followers").doc(uid),
-      'wishlist': FirebaseFirestore.instance.collection("wishlist").doc(uid),
-      'games_played': FirebaseFirestore.instance.collection("games_played").doc(uid),
-      'games_liked': FirebaseFirestore.instance.collection("games_liked").doc(uid),
-      'lists': FirebaseFirestore.instance.collection("lists").doc(uid),
-      'followings_count': 0,
-      'followers_count': 0,
-      'wishlist_count': 0,
-      'games_played_count': 0,
-      'games_liked_count': 0,
-      'lists_count': 0,
-    };
-    await FirebaseFirestore.instance.collection("users").doc(uid).set(user);
+    model.User user = model.User(
+      username: username,
+      followings: FirebaseFirestore.instance.collection("followings").doc(uid),
+      followers: FirebaseFirestore.instance.collection("followers").doc(uid),
+      wishlist: FirebaseFirestore.instance.collection("wishlist").doc(uid),
+      gamesPlayed: FirebaseFirestore.instance.collection("games_played").doc(uid),
+      gamesLiked: FirebaseFirestore.instance.collection("games_liked").doc(uid),
+      lists: FirebaseFirestore.instance.collection("lists").doc(uid),
+      followingsCount: 0,
+      followersCount: 0,
+      wishlistCount: 0,
+      gamesPlayedCount: 0,
+      gamesLikedCount: 0,
+      listsCount: 0,
+    );
+    await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toMap());
 
     signOut();
     Navigator.of(context).pushReplacementNamed("/signIn");
