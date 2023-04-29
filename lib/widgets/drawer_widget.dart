@@ -5,6 +5,7 @@ class DrawerIcon extends StatelessWidget {
   final String path;
 
   const DrawerIcon(this.path, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,6 +20,7 @@ class DrawerIcon extends StatelessWidget {
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -67,6 +69,7 @@ class AppDrawer extends StatelessWidget {
 
 class UserAppDrawer extends StatelessWidget {
   const UserAppDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -91,6 +94,13 @@ class UserAppDrawer extends StatelessWidget {
             title: const Text("Search"),
             onTap: () {
               Navigator.pushNamed(context, "/search");
+            },
+          ),
+          ListTile(
+            leading: const DrawerIcon("assets/icons/profile.png"),
+            title: const Text("Profile"),
+            onTap: () {
+              Navigator.pushNamed(context, "/profile");
             },
           ),
           ListTile(

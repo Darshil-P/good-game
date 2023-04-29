@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goodgame/services/auth_service.dart';
 import 'package:goodgame/views/game_details_page.dart';
 import 'package:goodgame/views/home_page.dart';
+import 'package:goodgame/views/profile_page.dart';
 import 'package:goodgame/views/search_page.dart';
 import 'package:goodgame/views/signin_page.dart';
 import 'package:goodgame/views/signup_page.dart';
@@ -30,6 +31,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SearchPage());
       case '/game':
         return MaterialPageRoute(builder: (_) => GameDetailsPage((args as List)[0]));
+      case '/profile':
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       default:
         return _errorRoute(settings.name);
     }

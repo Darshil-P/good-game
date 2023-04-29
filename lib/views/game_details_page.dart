@@ -17,28 +17,6 @@ class GameDetailsPage extends StatefulWidget {
 }
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
-  // Loading Screen
-  var gameDetailsPage = ListView(
-    children: [
-      const SizedBox(
-        height: 256,
-      ),
-      Center(
-        child: Container(
-          height: 64,
-          width: 64,
-          margin: const EdgeInsets.symmetric(vertical: 32),
-          child: const CircularProgressIndicator(),
-        ),
-      ),
-      const Center(
-        child: Text(
-          "Loading :)",
-          style: TextStyle(fontSize: 24),
-        ),
-      )
-    ],
-  );
   bool _isLoading = true;
   late Game game;
 
