@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
                       setState(() {
                         _isLoaded = false;
                       });
-                      games = (await search(_searchQuery.text)).games;
+                      games = (await search(_searchQuery.text));
                       setState(() {
                         _isLoaded = true;
                       });
@@ -75,7 +75,7 @@ class _SearchPageState extends State<SearchPage> {
                 setState(() {
                   _isLoaded = false;
                 });
-                games = (await search(_searchQuery.text)).games;
+                games = (await search(_searchQuery.text));
                 setState(() {
                   _isLoaded = true;
                 });

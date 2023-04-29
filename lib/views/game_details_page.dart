@@ -9,6 +9,7 @@ import '../widgets/videoplayer_widget.dart';
 
 class GameDetailsPage extends StatefulWidget {
   final int gameId;
+
   const GameDetailsPage(this.gameId, {Key? key}) : super(key: key);
 
   @override
@@ -48,7 +49,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
   }
 
   getData(gameId) async {
-    game = (await gameDetails(gameId))[0];
+    game = (await gameDetails(gameId));
     setState(() {
       _isLoading = false;
     });

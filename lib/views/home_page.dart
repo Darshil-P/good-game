@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getData() async {
-    games = (await fetchGames()).games;
+    games = (await fetchGames());
     if (mounted) {
       setState(() {});
     }
