@@ -35,7 +35,7 @@ Future<List<Game>> getWishlist(String userId) async {
 
 Future<List<Game>> getGamesPlayed(String userId) async {
   DocumentSnapshot<Map<String, dynamic>> games =
-      await FirebaseFirestore.instance.collection("games_playes").doc(userId).get();
+      await FirebaseFirestore.instance.collection("games_played").doc(userId).get();
 
   return games.data()!.values.map((game) => Game.fromMap(game)).toList();
 }
