@@ -24,8 +24,8 @@ class Game {
 
   Game({
     required this.id,
-    this.name,
     required this.cover,
+    this.name,
     this.summary,
     this.totalRating,
     this.totalRatingCount,
@@ -82,35 +82,25 @@ class Game {
       releaseDate: map['first_release_date'] ?? -1,
       status: map['status'] ?? -1,
       url: map['url'],
-      storyline: map['storyline'] ?? 'No Storyline',
+      storyline: map['storyline'],
       gameModes: map['game_modes']?.map((mode) => mode['name']).toList() ?? [],
       genres: map['genres']?.map((genre) => genre['name']).toList() ?? [],
       themes: map['themes']?.map((theme) => theme['name']).toList() ?? [],
-      screenshots: map['screenshots']
-              ?.map((screenshot) => screenshot['image_id'])
-              .toList() ??
-          [],
-      artworks:
-          map['artworks']?.map((artwork) => artwork['image_id']).toList() ?? [],
-      videos: map['videos']
-              ?.map((video) => Video(video['name'], video['video_id']))
-              .toList() ??
-          [],
+      screenshots: map['screenshots']?.map((screenshot) => screenshot['image_id']).toList() ?? [],
+      artworks: map['artworks']?.map((artwork) => artwork['image_id']).toList() ?? [],
+      videos: map['videos']?.map((video) => Video(video['name'], video['video_id'])).toList() ?? [],
       websites: map['websites']
               ?.map((website) => Website(website['url'], website['category']))
               .toList() ??
           [],
-      similarGames:
-          map['similar_games']?.map((game) => Game.fromMap(game)).toList() ??
-              [],
+      similarGames: map['similar_games']?.map((game) => Game.fromMap(game)).toList() ?? [],
       platforms: map['platforms']
-              ?.map((platform) => Platform(
-                  platform['name'], platform['platform_logo']?['image_id']))
+              ?.map(
+                  (platform) => Platform(platform['name'], platform['platform_logo']?['image_id']))
               .toList() ??
           [],
       companies: map['involved_companies']
-              ?.map((involvedCompany) => Company(
-                  involvedCompany['company']['name'],
+              ?.map((involvedCompany) => Company(involvedCompany['company']['name'],
                   involvedCompany['company']['logo']?['image_id']))
               .toList() ??
           [],
@@ -125,23 +115,27 @@ class Game {
 class Video {
   String name;
   String videoId;
+
   Video(this.name, this.videoId);
 }
 
 class Website {
   String url;
   int category;
+
   Website(this.url, this.category);
 }
 
 class Platform {
   String name;
   String? logo;
+
   Platform(this.name, this.logo);
 }
 
 class Company {
   String name;
   String? logo;
+
   Company(this.name, this.logo);
 }

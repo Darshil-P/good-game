@@ -51,115 +51,119 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
       ),
       body: ListView(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Image.network(
-                  "https://images.igdb.com/igdb/image/upload/t_original/${game.artworks![0]}.png",
+          if (game.artworks!.isNotEmpty)
+            Row(
+              children: [
+                Expanded(
+                  child: Image.network(
+                    "https://images.igdb.com/igdb/image/upload/t_original/${game.artworks![0]}.png",
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 58,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            child: Text(
-                              game.name!,
-                              style: const TextStyle(fontSize: 30),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 58,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              child: Text(
+                                game.name!,
+                                style: const TextStyle(fontSize: 30),
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(2),
+                                    ),
                                   ),
-                                ),
-                                child: Text(
-                                  "Released on:  ${rDate.day}-${rDate.month}-${rDate.year}",
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: RatingBarIndicator(
-                                  rating: game.totalRating! / 20,
-                                  itemBuilder: (context, index) => const Icon(
-                                    Icons.star,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  itemCount: 5,
-                                  direction: Axis.horizontal,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                child: RichText(
-                                  text: const TextSpan(
-                                    children: [
-                                      WidgetSpan(
-                                        child: Icon(Icons.share, size: 14),
-                                      ),
-                                      TextSpan(
-                                        text: " Share  ",
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  launchUrl(Uri.parse(game.url!));
-                                },
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 24),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: const BorderRadius.all(Radius.circular(2)),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
                                   child: Text(
-                                    "Based on ${game.totalRatingCount!.toString()} Ratings",
-                                    style: const TextStyle(fontSize: 12),
+                                    "Released on:  ${rDate.day}-${rDate.month}-${rDate.year}",
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: RatingBarIndicator(
+                                    rating: game.totalRating! / 20,
+                                    itemBuilder: (context, index) => const Icon(
+                                      Icons.star,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    itemCount: 5,
+                                    direction: Axis.horizontal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  child: RichText(
+                                    text: const TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Icon(Icons.share, size: 14),
+                                        ),
+                                        TextSpan(
+                                          text: " Share  ",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    launchUrl(Uri.parse(game.url!));
+                                  },
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 24),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: const BorderRadius.all(Radius.circular(2)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Text(
+                                      "Based on ${game.totalRatingCount!.toString()} Ratings",
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 42,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 24),
-                        child: Image.network(game.cover),
-                      ),
-                    )
-                  ],
+                      Expanded(
+                        flex: 42,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 24),
+                          child: Image.network(game.cover),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,135 +181,140 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Videos: ",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 135,
-                      child: ListView.builder(
-                        itemCount: game.videos!.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int i) {
-                          return Container(
-                            width: 240,
-                            margin: const EdgeInsets.only(right: 8),
-                            child: VideoPlayer(game.videos?[i].videoId),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Images: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                if (game.videos!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Videos: ",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 135,
-                      child: ListView.builder(
-                        itemCount: game.screenshots!.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int i) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 12),
-                            child: Image.network(
-                                "https://images.igdb.com/igdb/image/upload/t_original/${game.screenshots![i]}.png"),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Storyline: ",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Text(
-                      game.storyline!,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Platforms: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(
+                        height: 135,
+                        child: ListView.builder(
+                          itemCount: game.videos!.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int i) {
+                            return Container(
+                              width: 240,
+                              margin: const EdgeInsets.only(right: 8),
+                              child: VideoPlayer(game.videos?[i].videoId),
+                            );
+                          },
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 48,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: game.platforms!.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Image.network(
-                                "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.platforms![i].logo}.png"),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Companies: ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                    ],
+                  ),
+                if (game.screenshots!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Images: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 48,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: game.companies!.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Image.network(
-                                "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.companies![i].logo}.png"),
-                          );
-                        },
+                      SizedBox(
+                        height: 135,
+                        child: ListView.builder(
+                          itemCount: game.screenshots!.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int i) {
+                            return Container(
+                              margin: const EdgeInsets.only(right: 12),
+                              child: Image.network(
+                                  "https://images.igdb.com/igdb/image/upload/t_original/${game.screenshots![i]}.png"),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                if (game.storyline != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Storyline: ",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(
+                        game.storyline!,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                if (game.platforms!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Platforms: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: game.platforms!.length,
+                          itemBuilder: (BuildContext context, int i) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Image.network(
+                                  "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.platforms![i].logo}.png"),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                if (game.companies!.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Companies: ",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 48,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: game.companies!.length,
+                          itemBuilder: (BuildContext context, int i) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Image.network(
+                                  "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.companies![i].logo}.png"),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 // Column(
                 //   children: [
                 //     const Padding(
