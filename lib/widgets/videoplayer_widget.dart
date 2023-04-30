@@ -3,6 +3,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
   final String videoId;
+
   const VideoPlayer(this.videoId, {super.key});
 
   @override
@@ -11,6 +12,7 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer> {
   late YoutubePlayerController _controller;
+
   @override
   void initState() {
     super.initState();
@@ -31,16 +33,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 4.0),
-      child: YoutubePlayer(
-        showVideoProgressIndicator: true,
-        progressColors: ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amber.shade500,
-        ),
-        controller: _controller,
+    return YoutubePlayer(
+      showVideoProgressIndicator: true,
+      progressColors: ProgressBarColors(
+        playedColor: Colors.amber,
+        handleColor: Colors.amber.shade500,
       ),
+      controller: _controller,
     );
   }
 }

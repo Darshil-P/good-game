@@ -194,15 +194,17 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       ),
                       SizedBox(
                         height: 135,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemCount: game.videos!.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int i) {
-                            return Container(
+                            return SizedBox(
                               width: 240,
-                              margin: const EdgeInsets.only(right: 8),
                               child: VideoPlayer(game.videos?[i].videoId),
                             );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(width: 12);
                           },
                         ),
                       ),
@@ -224,15 +226,15 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       ),
                       SizedBox(
                         height: 135,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemCount: game.screenshots!.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int i) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 12),
-                              child: Image.network(
-                                  "https://images.igdb.com/igdb/image/upload/t_original/${game.screenshots![i]}.png"),
-                            );
+                            return Image.network(
+                                "https://images.igdb.com/igdb/image/upload/t_original/${game.screenshots![i]}.png");
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(width: 12);
                           },
                         ),
                       ),
@@ -271,15 +273,15 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       ),
                       SizedBox(
                         height: 48,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: game.platforms!.length,
                           itemBuilder: (BuildContext context, int i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Image.network(
-                                  "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.platforms![i].logo}.png"),
-                            );
+                            return Image.network(
+                                "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.platforms![i].logo}.png");
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(width: 12);
                           },
                         ),
                       ),
@@ -301,15 +303,15 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       ),
                       SizedBox(
                         height: 48,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: game.companies!.length,
                           itemBuilder: (BuildContext context, int i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Image.network(
-                                  "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.companies![i].logo}.png"),
-                            );
+                            return Image.network(
+                                "https://images.igdb.com/igdb/image/upload/t_logo_med/${game.companies![i].logo}.png");
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(width: 12);
                           },
                         ),
                       ),
@@ -374,23 +376,20 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     ),
                     SizedBox(
                       height: 160,
-                      child: ListView.builder(
+                      child: ListView.separated(
                         itemCount: game.similarGames!.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int i) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed("/game", arguments: [game.similarGames![i].id]);
-                              },
-                              child: Card(
-                                color: Colors.black26,
-                                child: Image.network(game.similarGames![i].cover),
-                              ),
-                            ),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed("/game", arguments: [game.similarGames![i].id]);
+                            },
+                            child: Image.network(game.similarGames![i].cover),
                           );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(width: 12);
                         },
                       ),
                     ),
