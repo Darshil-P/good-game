@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goodgame/services/api_services.dart';
+import 'package:goodgame/widgets/divider_widget.dart';
 import 'package:goodgame/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,7 +68,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
+                  padding: const EdgeInsets.only(bottom: 12.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -165,11 +166,12 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     ],
                   ),
                 ),
+                const SectionDivider(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Summary: ",
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -181,12 +183,13 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     ),
                   ],
                 ),
+                const SectionDivider(),
                 if (game.videos!.isNotEmpty)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: Text(
                           "Videos: ",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -208,6 +211,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                           },
                         ),
                       ),
+                      const SectionDivider(),
                     ],
                   ),
                 if (game.screenshots!.isNotEmpty)
@@ -215,7 +219,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: Text(
                           "Images: ",
                           style: TextStyle(
@@ -238,6 +242,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                           },
                         ),
                       ),
+                      const SectionDivider(),
                     ],
                   ),
                 if (game.storyline != null)
@@ -255,6 +260,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                         game.storyline!,
                         style: const TextStyle(fontSize: 16),
                       ),
+                      const SectionDivider(),
                     ],
                   ),
                 if (game.platforms!.isNotEmpty)
@@ -262,7 +268,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: Text(
                           "Platforms: ",
                           style: TextStyle(
@@ -285,6 +291,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                           },
                         ),
                       ),
+                      const SectionDivider(),
                     ],
                   ),
                 if (game.companies!.isNotEmpty)
@@ -292,7 +299,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: Text(
                           "Companies: ",
                           style: TextStyle(
@@ -315,6 +322,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                           },
                         ),
                       ),
+                      const SectionDivider(),
                     ],
                   ),
                 // Column(
@@ -365,7 +373,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.only(bottom: 8),
                       child: Text(
                         "Similar Games: ",
                         style: TextStyle(
