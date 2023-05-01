@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               child: SizedBox(
                 height: 160,
                 width: 120,
-                child: Image.network(games[i].cover),
+                child: Image.network(games[i].coverUrl!),
               ),
             ),
           );

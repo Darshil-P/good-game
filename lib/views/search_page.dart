@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/widgets/loading_widget.dart';
 
-import '../models/game_model.dart';
+import '../models/gamedetails_model.dart';
 import '../services/api_services.dart';
 
 class SearchPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   );
   late bool _isLoaded = true;
   late Widget _search;
-  late List<Game> games = [];
+  late List<GameDetails> games = [];
 
   @override
   void initState() {
@@ -136,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                                       width: 120,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: NetworkImage(games[i].cover),
+                                          image: NetworkImage(games[i].coverUrl!),
                                           fit: BoxFit.fitWidth,
                                         ),
                                       ),
@@ -158,7 +158,7 @@ class _SearchPageState extends State<SearchPage> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(bottom: 6),
                                                 child: Text(
-                                                  games[i].name!,
+                                                  games[i].name,
                                                   maxLines: 2,
                                                   style: const TextStyle(
                                                       fontSize: 20,

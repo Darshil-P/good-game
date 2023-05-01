@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/follow_model.dart';
@@ -30,7 +32,7 @@ Future<List<Game>> getWishlist(String userId) async {
   DocumentSnapshot<Map<String, dynamic>> games =
       await FirebaseFirestore.instance.collection("wishlists").doc(userId).get();
 
-  return games.data()!.values.map((game) => Game.fromMap(game)).toList();
+  return List<Game>.from(games.data()!["games"].map((game) => Game.fromMap(jsonDecode(game))));
 }
 
 Future<List<Game>> getGamesPlayed(String userId) async {

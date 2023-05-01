@@ -5,7 +5,7 @@ import 'package:goodgame/widgets/divider_widget.dart';
 import 'package:goodgame/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/game_model.dart';
+import '../models/gamedetails_model.dart';
 import '../widgets/videoplayer_widget.dart';
 
 class GameDetailsPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class GameDetailsPage extends StatefulWidget {
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
   bool _isLoading = true;
-  late Game game;
+  late GameDetails game;
 
   @override
   initState() {
@@ -80,7 +80,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 6),
                               child: Text(
-                                game.name!,
+                                game.name,
                                 style: const TextStyle(fontSize: 30),
                               ),
                             ),
@@ -160,7 +160,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                         flex: 42,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 24),
-                          child: Image.network(game.cover),
+                          child: Image.network(game.coverUrl!),
                         ),
                       )
                     ],
@@ -393,7 +393,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                               Navigator.of(context)
                                   .pushNamed("/game", arguments: [game.similarGames![i].id]);
                             },
-                            child: Image.network(game.similarGames![i].cover),
+                            child: Image.network(game.similarGames![i].coverUrl),
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
