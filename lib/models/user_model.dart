@@ -58,7 +58,7 @@ class User {
       gamesPlayed: map['games_played'],
       gamesLiked: map['games_liked'],
       lists: map['lists'],
-      followingsCount: map['following_count'],
+      followingsCount: map['followings_count'],
       followersCount: map['followers_count'],
       wishlistCount: map['wishlist_count'],
       gamesPlayedCount: map['games_played_count'],
