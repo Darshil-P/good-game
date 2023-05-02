@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:goodgame/router.dart';
+import 'package:goodgame/services/auth_service.dart';
+import 'package:goodgame/services/firestore_services.dart';
 
 import 'firebase_options.dart';
 
@@ -10,6 +12,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  initAuthStateListener();
+  initUserReferences();
   // MyApp Should be created after Firebase is Initialized to Check for Signed-In User
   runApp(const MyApp());
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:goodgame/services/auth_service.dart';
 import 'package:goodgame/widgets/drawer_widget.dart';
 
 import '../models/game_model.dart';
 import '../services/api_services.dart';
+import '../services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Home Page"),
       ),
-      drawer: signedIn() ? const UserAppDrawer() : const AppDrawer(),
+      drawer: signedIn ? const UserAppDrawer() : const AppDrawer(),
       body: GridView.builder(
         itemCount: games.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

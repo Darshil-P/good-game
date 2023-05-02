@@ -1,12 +1,17 @@
 import 'dart:async';
 
 import 'package:bcrypt/bcrypt.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goodgame/models/user_model.dart' as model;
 
-FirebaseAuth auth = FirebaseAuth.instance;
+import 'firestore_services.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+User? currentUser;
+String? userId;
+late bool signedIn;
 
 void authenticatePhone(context, String phone, Completer completer) {
   auth.verifyPhoneNumber(
@@ -30,10 +35,8 @@ void authenticatePhone(context, String phone, Completer completer) {
 }
 
 Future<bool> authenticate(context, String type, String credential, String password) async {
-  final cred = await FirebaseFirestore.instance
-      .collection("credentials")
-      .where(type, isEqualTo: credential.toLowerCase())
-      .get();
+  final cred =
+      await db.collection("credentials").where(type, isEqualTo: credential.toLowerCase()).get();
 
   if (cred.docs.isEmpty) return false;
 
@@ -58,10 +61,6 @@ Future<void> signIn(context, String verificationId, String smsCode, int? resendT
   Navigator.of(context).pop();
 }
 
-bool signedIn() {
-  return (FirebaseAuth.instance.currentUser != null) ? true : false;
-}
-
 Future<void> signUp(
     BuildContext context, String username, String email, String phone, String password) async {
   Completer phoneAuthComplete = Completer();
@@ -69,7 +68,7 @@ Future<void> signUp(
   authenticatePhone(context, phone, phoneAuthComplete);
   await phoneAuthComplete.future;
 
-  if (signedIn()) {
+  if (signedIn) {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     String pwHash = BCrypt.hashpw(
       password,
@@ -86,16 +85,16 @@ Future<void> signUp(
       "password": pwHash,
       "account_creation_date": DateTime.now().millisecondsSinceEpoch,
     };
-    await FirebaseFirestore.instance.collection("credentials").doc(uid).set(credentials);
+    await db.collection("credentials").doc(uid).set(credentials);
 
     model.User user = model.User(
       username: username,
-      followings: FirebaseFirestore.instance.collection("followings").doc(uid),
-      followers: FirebaseFirestore.instance.collection("followers").doc(uid),
-      wishlist: FirebaseFirestore.instance.collection("wishlist").doc(uid),
-      gamesPlayed: FirebaseFirestore.instance.collection("games_played").doc(uid),
-      gamesLiked: FirebaseFirestore.instance.collection("games_liked").doc(uid),
-      lists: FirebaseFirestore.instance.collection("lists").doc(uid),
+      followings: db.collection("followings").doc(uid),
+      followers: db.collection("followers").doc(uid),
+      wishlist: db.collection("wishlist").doc(uid),
+      gamesPlayed: db.collection("games_played").doc(uid),
+      gamesLiked: db.collection("games_liked").doc(uid),
+      lists: db.collection("lists").doc(uid),
       followingsCount: 0,
       followersCount: 0,
       wishlistCount: 0,
@@ -103,7 +102,7 @@ Future<void> signUp(
       gamesLikedCount: 0,
       listsCount: 0,
     );
-    await FirebaseFirestore.instance.collection("users").doc(uid).set(user.toMap());
+    await db.collection("users").doc(uid).set(user.toMap());
 
     signOut();
     Navigator.of(context).pushReplacementNamed("/signIn");
@@ -113,7 +112,7 @@ Future<void> signUp(
 }
 
 Future<bool> isRegistered({required String credentialType, required String value}) async {
-  final cred = await FirebaseFirestore.instance
+  final cred = await db
       .collection("credentials")
       .where(credentialType, isEqualTo: value.toLowerCase())
       .get();
@@ -122,5 +121,13 @@ Future<bool> isRegistered({required String credentialType, required String value
 }
 
 Future<void> signOut() async {
-  await FirebaseAuth.instance.signOut();
+  await auth.signOut();
+}
+
+void initAuthStateListener() {
+  auth.authStateChanges().listen((user) {
+    currentUser = user;
+    userId = user?.uid;
+    signedIn = user != null;
+  });
 }
