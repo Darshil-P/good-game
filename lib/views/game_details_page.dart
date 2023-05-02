@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:goodgame/services/api_services.dart';
+import 'package:goodgame/services/firestore_services.dart';
 import 'package:goodgame/widgets/divider_widget.dart';
 import 'package:goodgame/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,12 +20,18 @@ class GameDetailsPage extends StatefulWidget {
 
 class _GameDetailsPageState extends State<GameDetailsPage> {
   bool _isLoading = true;
+  bool _inWishlist = false;
+  bool _inCollection = false;
+  bool _isLiked = false;
+  late String userRating;
   late GameDetails game;
 
   @override
   initState() {
     super.initState();
     getData(widget.gameId);
+    getUserData(widget.gameId);
+    userRating = "4.5";
   }
 
   getData(gameId) async {
@@ -32,6 +39,14 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  getUserData(gameId) async {
+    _inWishlist = await inWishlist(gameId);
+    _inCollection = await inCollection(gameId);
+    _isLiked = await isLiked(gameId);
+
+    setState(() {});
   }
 
   @override
@@ -163,6 +178,120 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                           child: Image.network(game.coverUrl!),
                         ),
                       )
+                    ],
+                  ),
+                ),
+                const SectionDivider(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        child: SizedBox(
+                          width: 96,
+                          child: _inWishlist
+                              ? const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.access_time_filled_rounded,
+                                      size: 64,
+                                    ),
+                                    Text("In Wishlist"),
+                                  ],
+                                )
+                              : const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.more_time_rounded,
+                                      size: 64,
+                                    ),
+                                    Text("Add to Wishlist"),
+                                  ],
+                                ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_inWishlist) {
+                              _inWishlist = false;
+                              removeFromWishlist(game);
+                            } else {
+                              _inWishlist = true;
+                              addToWishlist(game);
+                            }
+                          });
+                        },
+                      ),
+                      GestureDetector(
+                        child: SizedBox(
+                          width: 96,
+                          child: _isLiked
+                              ? const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.favorite,
+                                      size: 64,
+                                    ),
+                                    Text("Liked"),
+                                  ],
+                                )
+                              : const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.favorite_border,
+                                      size: 64,
+                                    ),
+                                    Text("Like"),
+                                  ],
+                                ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_isLiked) {
+                              _isLiked = false;
+                              removeFromLikes(game);
+                            } else {
+                              _isLiked = true;
+                              addToLikes(game);
+                            }
+                          });
+                        },
+                      ),
+                      GestureDetector(
+                        child: SizedBox(
+                          width: 96,
+                          child: _inCollection
+                              ? const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.check_box_rounded,
+                                      size: 64,
+                                    ),
+                                    Text("In Collection"),
+                                  ],
+                                )
+                              : const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.check_box_outlined,
+                                      size: 64,
+                                    ),
+                                    Text("Mark as Played"),
+                                  ],
+                                ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_inCollection) {
+                              _inCollection = false;
+                              removeFromCollection(game);
+                            } else {
+                              _inCollection = true;
+                              addToCollection(game);
+                            }
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
