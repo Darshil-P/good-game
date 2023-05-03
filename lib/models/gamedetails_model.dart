@@ -47,7 +47,9 @@ class GameDetails extends Game {
     return {
       'id': id,
       'name': name,
-      'cover': cover,
+      'cover': {
+        "image_id": cover,
+      },
       'summary': summary,
       'total_rating': totalRating,
       'total_rating_count': totalRatingCount,
@@ -55,16 +57,29 @@ class GameDetails extends Game {
       'status': status,
       'url': url,
       'storyline': storyline,
-      'game_modes': gameModes,
-      'genres': genres,
-      'themes': themes,
-      'screenshots': screenshots,
-      'artworks': artworks,
-      'videos': videos,
-      'websites': websites,
-      'similar_games': similarGames,
-      'platforms': platforms,
-      'companies': companies,
+      'game_modes': gameModes?.map((mode) => {"name": mode}).toList(),
+      'genres': genres?.map((genre) => {"name": genre}).toList(),
+      'themes': themes?.map((theme) => {"name": theme}).toList(),
+      'screenshots': screenshots?.map((imageId) => {"image_id": imageId}).toList(),
+      'artworks': artworks?.map((imageId) => {"image_id": imageId}).toList(),
+      'videos': videos?.map((video) => {"name": video.name, "video_id": video.videoId}).toList(),
+      'websites':
+          websites?.map((website) => {"url": website.url, "category": website.category}).toList(),
+      'similar_games': similarGames?.map((game) => game.toMap()).toList(),
+      'platforms': platforms
+          ?.map((platform) => {
+                "name": platform.name,
+                "platform_logo": {"image_id": platform.logo}
+              })
+          .toList(),
+      'involved_companies': companies
+          ?.map((company) => {
+                "company": {
+                  "name": company.name,
+                  "logo": {"image_id": company.logo}
+                }
+              })
+          .toList(),
     };
   }
 
