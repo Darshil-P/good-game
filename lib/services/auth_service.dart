@@ -3,21 +3,20 @@ import 'dart:async';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:goodgame/models/user_model.dart' as model;
 
 import 'firestore_services.dart';
 
-final FirebaseAuth auth = FirebaseAuth.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 User? currentUser;
 String? userId;
 late bool signedIn;
 
 void authenticatePhone(context, String phone, Completer completer) {
-  auth.verifyPhoneNumber(
+  _auth.verifyPhoneNumber(
     phoneNumber: phone,
     verificationCompleted: (PhoneAuthCredential credential) async {
-      await auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential);
     },
     verificationFailed: (FirebaseAuthException e) {
       if (e.code == 'invalid-phone-number') {
@@ -35,8 +34,7 @@ void authenticatePhone(context, String phone, Completer completer) {
 }
 
 Future<bool> authenticate(context, String type, String credential, String password) async {
-  final cred =
-      await db.collection("credentials").where(type, isEqualTo: credential.toLowerCase()).get();
+  final cred = await getCredential(type, credential);
 
   if (cred.docs.isEmpty) return false;
 
@@ -57,7 +55,7 @@ Future<void> signIn(context, String verificationId, String smsCode, int? resendT
     smsCode: smsCode,
   );
 
-  await auth.signInWithCredential(credential);
+  await _auth.signInWithCredential(credential);
   Navigator.of(context).pop();
 }
 
@@ -69,7 +67,6 @@ Future<void> signUp(
   await phoneAuthComplete.future;
 
   if (signedIn) {
-    String? uid = FirebaseAuth.instance.currentUser?.uid;
     String pwHash = BCrypt.hashpw(
       password,
       BCrypt.gensalt(
@@ -78,56 +75,25 @@ Future<void> signUp(
       ),
     );
 
-    Map<String, dynamic> credentials = {
-      "username": username.toLowerCase(),
-      "email": email.toLowerCase(),
-      "phone": phone,
-      "password": pwHash,
-      "account_creation_date": DateTime.now().millisecondsSinceEpoch,
-    };
-    await db.collection("credentials").doc(uid).set(credentials);
+    await registerUser(username, email, phone, pwHash);
 
-    model.User user = model.User(
-      username: username,
-      followings: db.collection("followings").doc(uid),
-      followers: db.collection("followers").doc(uid),
-      wishlist: db.collection("wishlist").doc(uid),
-      gamesPlayed: db.collection("games_played").doc(uid),
-      gamesLiked: db.collection("games_liked").doc(uid),
-      lists: db.collection("lists").doc(uid),
-      followingsCount: 0,
-      followersCount: 0,
-      wishlistCount: 0,
-      gamesPlayedCount: 0,
-      gamesLikedCount: 0,
-      listsCount: 0,
-    );
-    await db.collection("users").doc(uid).set(user.toMap());
-
-    signOut();
+    _auth.signOut();
     Navigator.of(context).pushReplacementNamed("/signIn");
   } else {
     debugPrint("There was Some Error during Registering");
   }
 }
 
-Future<bool> isRegistered({required String credentialType, required String value}) async {
-  final cred = await db
-      .collection("credentials")
-      .where(credentialType, isEqualTo: value.toLowerCase())
-      .get();
-
-  return cred.docs.isNotEmpty ? true : false;
-}
-
 Future<void> signOut() async {
-  await auth.signOut();
+  await _auth.signOut();
 }
 
 void initAuthStateListener() {
-  auth.authStateChanges().listen((user) {
+  _auth.authStateChanges().listen((user) {
+    debugPrint("Auth State Changed");
     currentUser = user;
     userId = user?.uid;
+    updateReferences(userId);
     signedIn = user != null;
   });
 }

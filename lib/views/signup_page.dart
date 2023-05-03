@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/services/auth_service.dart';
 
+import '../services/firestore_services.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 

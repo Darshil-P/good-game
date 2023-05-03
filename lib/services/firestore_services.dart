@@ -6,7 +6,7 @@ import '../models/gamedetails_model.dart';
 import '../models/user_model.dart';
 import 'auth_service.dart';
 
-final FirebaseFirestore db = FirebaseFirestore.instance;
+final FirebaseFirestore _db = FirebaseFirestore.instance;
 
 late dynamic _user;
 late dynamic _followers;
@@ -14,9 +14,14 @@ late dynamic _followings;
 late dynamic _wishlist;
 late dynamic _gamesLiked;
 late dynamic _gamesPlayed;
+late dynamic _lists;
 
 Future<User> getUser(String userId) async {
   return User.fromMap((await _user.get()).data());
+}
+
+Future<QuerySnapshot> getCredential(String type, String credential) async {
+  return await _db.collection("credentials").where(type, isEqualTo: credential.toLowerCase()).get();
 }
 
 Future<List<Follow>> getFollowers(String userId) async {
@@ -55,6 +60,51 @@ Future<bool> inCollection(gameId) async {
 
 Future<bool> isLiked(gameId) async {
   return (await _gamesLiked.get()).data()["games"].any((game) => game["id"] == gameId);
+}
+
+Future<bool> isRegistered({required String credentialType, required String value}) async {
+  final credentials = await _db
+      .collection("credentials")
+      .where(credentialType, isEqualTo: value.toLowerCase())
+      .get();
+
+  return credentials.docs.isNotEmpty;
+}
+
+Future<void> registerUser(String username, String email, String phone, String pwHash) async {
+  Map<String, dynamic> credentials = {
+    "username": username.toLowerCase(),
+    "email": email.toLowerCase(),
+    "phone": phone,
+    "password": pwHash,
+    "account_creation_date": DateTime.now().millisecondsSinceEpoch,
+  };
+
+  User user = User(
+    username: username,
+    followings: _followings,
+    followers: _followers,
+    wishlist: _wishlist,
+    gamesPlayed: _gamesPlayed,
+    gamesLiked: _gamesLiked,
+    lists: _lists,
+    followingsCount: 0,
+    followersCount: 0,
+    wishlistCount: 0,
+    gamesPlayedCount: 0,
+    gamesLikedCount: 0,
+    listsCount: 0,
+  );
+
+  print("Creating Documents...");
+  await _db.collection("credentials").doc(userId).set(credentials);
+  await _db.collection("users").doc(userId).set(user.toMap());
+  await _followings.set({"users": []});
+  await _followers.set({"users": []});
+  await _wishlist.set({"games": []});
+  await _gamesPlayed.set({"games": []});
+  await _gamesLiked.set({"games": []});
+  print("Documents Created...");
 }
 
 Future<void> addToWishlist(GameDetails gameDetails) async {
@@ -108,13 +158,12 @@ Future<void> removeFromLikes(GameDetails gameDetails) async {
   _user.update({"games_liked_count": FieldValue.increment(-1)});
 }
 
-void initUserReferences() {
-  auth.authStateChanges().listen((user) {
-    _user = db.collection("users").doc(user?.uid);
-    _followers = db.collection("followers").doc(user?.uid);
-    _followings = db.collection("followings").doc(user?.uid);
-    _wishlist = db.collection("wishlists").doc(user?.uid);
-    _gamesLiked = db.collection("games_liked").doc(user?.uid);
-    _gamesPlayed = db.collection("games_played").doc(user?.uid);
-  });
+void updateReferences(userId) {
+  _user = _db.collection("users").doc(userId);
+  _followers = _db.collection("followers").doc(userId);
+  _followings = _db.collection("followings").doc(userId);
+  _wishlist = _db.collection("wishlists").doc(userId);
+  _gamesLiked = _db.collection("games_liked").doc(userId);
+  _gamesPlayed = _db.collection("games_played").doc(userId);
+  _lists = _db.collection("lists").doc(userId);
 }
