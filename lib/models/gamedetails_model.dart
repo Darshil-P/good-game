@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:goodgame/models/game_model.dart';
 
 class GameDetails extends Game {
-  String? summary;
-  double? totalRating;
   int? totalRatingCount;
-  int? releaseDate;
   int? status;
   String? url;
   String? storyline;
@@ -26,10 +23,10 @@ class GameDetails extends Game {
     required super.cover,
     required super.name,
     super.coverUrl,
-    this.summary,
-    this.totalRating,
+    super.summary,
+    super.totalRating,
+    super.releaseDate,
     this.totalRatingCount,
-    this.releaseDate,
     this.status,
     this.url,
     this.storyline,

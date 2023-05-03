@@ -25,13 +25,13 @@ Future<Response> fetch(String endpoint, String query) async {
   return response;
 }
 
-Future<List<GameDetails>> search(String query) async {
+Future<List<Game>> search(String query) async {
   Response response = await fetch("games",
-      'fields name, cover.image_id, summary, total_rating, total_rating_count, first_release_date; search "$query"; where category = 0;');
+      'fields name, cover.image_id, summary, total_rating, first_release_date; search "$query"; where category = 0;');
 
-  return List<GameDetails>.from(
+  return List<Game>.from(
     jsonDecode(response.body).map(
-      (game) => GameDetails.fromMap(game),
+      (game) => Game.fromMap(game),
     ),
   );
 }

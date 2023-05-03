@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goodgame/widgets/loading_widget.dart';
 
-import '../models/gamedetails_model.dart';
+import '../models/game_model.dart';
 import '../services/api_services.dart';
 
 class SearchPage extends StatefulWidget {
@@ -17,9 +17,9 @@ class _SearchPageState extends State<SearchPage> {
     "Search",
     style: TextStyle(fontSize: 32),
   );
-  late bool _isLoaded = true;
+  bool _isLoaded = true;
   late Widget _search;
-  late List<GameDetails> games = [];
+  List<Game> games = [];
 
   @override
   void initState() {

@@ -5,12 +5,18 @@ class Game {
   String cover;
   String name;
   String? coverUrl;
+  String? summary;
+  double? totalRating;
+  int? releaseDate;
 
   Game({
     required this.id,
     required this.cover,
     required this.name,
     this.coverUrl,
+    this.summary,
+    this.totalRating,
+    this.releaseDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +36,9 @@ class Game {
       cover: map['cover']['image_id'],
       coverUrl:
           "https://images.igdb.com/igdb/image/upload/t_cover_big/${map['cover']?['image_id'] ?? 'nocover'}.png",
+      summary: map['summary'] ?? 'No Description',
+      totalRating: map['total_rating'] ?? 0.0,
+      releaseDate: map['first_release_date'] ?? -1,
     );
   }
 
