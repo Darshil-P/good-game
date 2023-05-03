@@ -7,6 +7,7 @@ import 'package:goodgame/widgets/loading_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/gamedetails_model.dart';
+import '../services/auth_service.dart';
 import '../widgets/videoplayer_widget.dart';
 
 class GameDetailsPage extends StatefulWidget {
@@ -30,7 +31,6 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
   initState() {
     super.initState();
     getData(widget.gameId);
-    getUserData(widget.gameId);
     userRating = "4.5";
   }
 
@@ -39,14 +39,35 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
     setState(() {
       _isLoading = false;
     });
+
+    if (signedIn) {
+      _inWishlist = await inWishlist(gameId);
+      _inCollection = await inCollection(gameId);
+      _isLiked = await isLiked(gameId);
+      setState(() {});
+    }
   }
 
-  getUserData(gameId) async {
-    _inWishlist = await inWishlist(gameId);
-    _inCollection = await inCollection(gameId);
-    _isLiked = await isLiked(gameId);
-
-    setState(() {});
+  AlertDialog signInPopup(context) {
+    return AlertDialog(
+      title: const Text("SignIn Required"),
+      content: const Text(
+          "SignIn to Wishlist, Rate, Like & Add Games to Your Collection.\n\nDon't have an Account?\nPress the SignUp Button to Create Now!"),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).popAndPushNamed("/signIn"),
+          child: const Text('Sign-In'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).popAndPushNamed("/signUp"),
+          child: const Text('Sign-Up'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+      ],
+    );
   }
 
   @override
@@ -212,7 +233,12 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                         ),
                         onTap: () {
                           setState(() {
-                            if (_inWishlist) {
+                            if (!signedIn) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => signInPopup(context),
+                              );
+                            } else if (_inWishlist) {
                               _inWishlist = false;
                               removeFromWishlist(game);
                             } else {
@@ -247,7 +273,12 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                         ),
                         onTap: () {
                           setState(() {
-                            if (_isLiked) {
+                            if (!signedIn) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => signInPopup(context),
+                              );
+                            } else if (_isLiked) {
                               _isLiked = false;
                               removeFromLikes(game);
                             } else {
@@ -282,7 +313,12 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                         ),
                         onTap: () {
                           setState(() {
-                            if (_inCollection) {
+                            if (!signedIn) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => signInPopup(context),
+                              );
+                            } else if (_inCollection) {
                               _inCollection = false;
                               removeFromCollection(game);
                             } else {
